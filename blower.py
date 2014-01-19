@@ -1,15 +1,8 @@
 import os
 import requests
 
-
-"""
-phone_numbers = ['+16467706871',
-				'+16462218556']
-"""
-
-phone_numbers = ['+16462218556']
-
 blower_url = os.environ['BLOWERIO_URL']
+phone_numbers = os.environ['RECIPIENT_NUMBERS'].split(",")
 
 def send_sms(msg):
 	for number in phone_numbers:

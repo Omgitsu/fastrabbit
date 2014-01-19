@@ -1,13 +1,17 @@
 #!/usr/bin/python
+import os
 import requests
 import bitly_api
 import blower
+import tweet
+import twilio_sms
 
-price_target = 30
+price_target = 35
 
-sms = True
-twitter = False
-email = False
+_blower = False
+_twilio = True
+_twitter = False
+_email = False
 
 def handle_message(item):
 	print "new task:" + str(item["id"])
@@ -15,13 +19,15 @@ def handle_message(item):
 	if price:
 		price = int(price.strip().lstrip("$"))
 		if price >= price_target:
-			#print "possible task, send sms"
-			if sms:
-				msg = "$" + str(price) + ": " + item["truncated_title"] + " " + shorten_url(item["url"])
+			print "possible task, send notifications"
+			msg = "$" + str(price) + ": " + item["truncated_title"] + " " + shorten_url(item["url"])
+			if _blower:
 				blower.send_sms(msg)
-			if twitter:
-				pass
-			if email:
+			if _twilio:
+				twilio_sms.send_sms(msg)
+			if _twitter:
+				tweet.send_dm(msg)
+			if _email:
 				pass
 
 def shorten_url(url):
