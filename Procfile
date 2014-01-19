@@ -1,2 +1,1 @@
-clock: python clock.py
-worker: python worker.py
+worker: python twitter.py

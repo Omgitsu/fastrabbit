@@ -1,32 +1,38 @@
 #!/usr/bin/python
 import requests
 import bitly_api
-import config
 import blower
 
-price_target = 0
+price_target = 30
+
+sms = True
+twitter = False
+email = False
 
 def handle_message(item):
 	print "new task:" + str(item["id"])
 	price = item["instant_price"]
 	if price:
 		price = int(price.strip().lstrip("$"))
-		print price
 		if price >= price_target:
-			print "possible task, send sms"
-			msg = "$" + str(price) + ": " + item["truncated_title"] + " " + shorten_url(item["url"])
-			print msg
-			blower.send_sms(msg)
+			#print "possible task, send sms"
+			if sms:
+				msg = "$" + str(price) + ": " + item["truncated_title"] + " " + shorten_url(item["url"])
+				blower.send_sms(msg)
+			if twitter:
+				pass
+			if email:
+				pass
 
 def shorten_url(url):
-	c = bitly_api.Connection(access_token=config.bitly_token)
+	c = bitly_api.Connection(access_token=os.environ['BITLY_TOKEN'])
 	response = c.shorten(url)
 	return response["url"]
 
 def fetch_tasks():
 
-	url = config.taskrabbit_url
-	headers = { 'Cookie' : config.cookie,
+	url = os.environ['TASKRABBIT_URL']
+	headers = { 'Cookie' : os.environ['TASKRABBIT_COOKIE'],
 				'Accept-Encoding' : 'gzip,deflate,sdch',
 				'Accept-Language' : 'en-US,en;q=0.8',
 				'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36',
