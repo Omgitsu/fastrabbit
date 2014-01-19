@@ -6,9 +6,9 @@ from apscheduler.scheduler import Scheduler
 sched = Scheduler()
 q = Queue(connection=conn)
 
-@sched.interval_schedule(seconds=30)
+@sched.interval_schedule(seconds=15)
 def fast_job():
-    print 'This job is run every thirty seconds.'
+    print 'This job is run every fifteen seconds.'
     result = q.enqueue(fetch_tasks)
 
 sched.start()
