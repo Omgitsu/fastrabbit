@@ -1,6 +1,5 @@
 from rq import Queue
 from worker import conn
-from utils import count_words_at_url
 from fastrabbit import fetch_tasks
 from apscheduler.scheduler import Scheduler
 
