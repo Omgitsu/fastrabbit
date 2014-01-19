@@ -24,7 +24,7 @@ __pycache__
 include
 
 # private files
-config.py
+# config.py
 
 # Installer logs
 pip-log.txt
