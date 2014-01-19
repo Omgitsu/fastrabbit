@@ -23,6 +23,9 @@ __pycache__
 .Python
 include
 
+# private files
+config.py
+
 # Installer logs
 pip-log.txt
 
@@ -38,3 +41,9 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Heroku
+.env
+
+# data files
+id.dat
