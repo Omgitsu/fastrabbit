@@ -16,8 +16,6 @@ def send_dm(msg):
 	                	access_token_secret=os.environ['TWEETACCESSSECRET'],
 	                	input_encoding='utf-8')
 
-	#message = "This is a cool test message"
-
 	for recipient in recipients:
 		try:
 			#status = api.PostUpdate(message)
