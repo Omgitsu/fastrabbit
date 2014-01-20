@@ -81,7 +81,7 @@ def fetch_tasks():
 		max_len = 500
 		if len(ids) > max_len:
 			new_ids = []
-			for i in xrange(500):
+			for i in xrange(max_len):
 				new_ids.append(ids[i])
 		else:
 			new_ids = ids
