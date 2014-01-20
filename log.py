@@ -2,6 +2,7 @@ import os
 import gspread
 
 def log_job(values):
+	print "*****log_job*****"
 	key = os.environ['GDRIVE_SPREADSHEET']
 	email = os.environ['GDRIVE_EMAIL']
 	password = os.environ['GDRIVE_PASSWORD']
