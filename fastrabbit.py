@@ -22,7 +22,7 @@ def handle_message(item):
 	print "new task:" + str(item["id"])
 	price = item["instant_price"]
 	if price:
-		price = int(price.strip().lstrip("$"))
+		price = int(price.strip().lstrip("$").replace("/hr",""))
 		if price >= price_target:
 			print "possible task, send notifications"
 			msg = "$" + str(price) + ": " + item["truncated_title"] + " " + shorten_url(item["url"])
