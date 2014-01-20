@@ -41,6 +41,7 @@ def handle_message(item):
 			if _email:
 				pass
 		if _log:
+			print "@@@ add log_job to queue"
 			q = Queue(connection=conn)
 			values = [item["id"],datetime.now(),price,item["truncated_title"],url]
 			q.enqueue(log_job, values)
