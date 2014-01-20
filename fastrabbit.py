@@ -5,6 +5,9 @@ import bitly_api
 import blower
 import tweet
 import twilio_sms
+from log import log_job
+from rq import Queue
+from worker import conn
 from datetime import datetime
 from pytz import timezone
 
@@ -17,15 +20,18 @@ _blower = False
 _twilio = True
 _twitter = False
 _email = False
+_log = True
 
 def handle_message(item):
 	print "new task:" + str(item["id"])
 	price = item["instant_price"]
 	if price:
 		price = int(price.strip().lstrip("$").replace("/hr",""))
+		if _log or price >= price_target:
+			url = shorten_url(item["url"])
 		if price >= price_target:
 			print "possible task, send notifications"
-			msg = "$" + str(price) + ": " + item["truncated_title"] + " " + shorten_url(item["url"])
+			msg = "$" + str(price) + ": " + item["truncated_title"] + " " + url
 			if _blower:
 				blower.send_sms(msg)
 			if _twilio:
@@ -34,6 +40,10 @@ def handle_message(item):
 				tweet.send_dm(msg)
 			if _email:
 				pass
+		if _log:
+			q = Queue(connection=conn)
+			values = [item["id"],datetime.now(),price,item["truncated_title"],url]
+			q.enqueue(log_job, values)
 
 def shorten_url(url):
 	c = bitly_api.Connection(access_token=os.environ['BITLY_TOKEN'])
